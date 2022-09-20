@@ -51,9 +51,22 @@ function resetCalculator() {
 
 function clearInput() {
     // user presses clear
+    
+
     if (operatorToggled == true) {
-        resetCalculator()
+        // remove input from formula
+        let keep = formulaString.split(operator)[0]
+        formulaString = keep + operator
+        formulaDisplay.textContent = formulaString
+    } else if (operatorToggled != true && secondNumber != "") {
+        let keep = formulaString.split(operator)[0]
+        formulaString = keep + operator
+        formulaDisplay.textContent = formulaString
+    } else if (secondNumber == "") {
+        formulaString = ''
+        formulaDisplay.textContent = formulaString
     }
+
     screen.textContent = 0
     secondNumber = ''
     toggleOperatorButton(operator)
@@ -245,7 +258,12 @@ digitButtons.forEach((digit) => {
     digit.addEventListener('click', () => {
         resetOperatorButton()
 
-        if (firstNumDecimal == true) { // if user is adding decimals to an output to use in next
+        if (secondNumber == "" && operatorToggled == false && result != null) {
+            resetCalculator()
+            firstNumber = (firstNumber + digit.textContent)
+            screen.textContent = firstNumber
+            appendToFormulaDisplay(digit.textContent)
+        } else if (firstNumDecimal == true) { // if user is adding decimals to an output to use in next
             firstNumber = (firstNumber + digit.textContent)
             screen.textContent = firstNumber
             appendToFormulaDisplay(digit.textContent)
@@ -257,12 +275,11 @@ digitButtons.forEach((digit) => {
             console.log('a')
         // prevent user from spamming 0 during very first digit of 2nd number
         } else if (operator != null && secondNumber == '' && digit.textContent == '0') { 
-            secondNumber = '0'
-            screen.textContent = secondNumber
+            screen.textContent = '0'
             console.log('b')
         // prevent user from spamming 0 during second number
-        } else if (firstNumber != '' && secondNumber.split('')[0] == 0 && digit.textContent == '0') {
-            console.log('c')
+        } else if (secondNumber != '' && secondNumber.split('')[0] == 0 && digit.textContent == '0') {
+            secondNumber = ''
         // input first value
         } else if (operator == null) {                          
             firstNumber = (firstNumber + digit.textContent)
