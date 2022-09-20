@@ -140,6 +140,11 @@ function percentage() {
         let keep = formulaString.split(operator)[0]
         formulaString = keep + operator + secondNumber
         formulaDisplay.textContent = formulaString
+    } else if (firstNumber != '' && secondNumber == '' && !operators.includes(formulaString.slice(-1))) {
+        firstNumber = '' + (+firstNumber / 100)
+        formulaString = firstNumber
+        formulaDisplay.textContent = firstNumber
+        screen.textContent = firstNumber
     }
 }
 
@@ -181,6 +186,7 @@ var formulaString
 var previousOperator
 var operatorToggled
 var firstNumDecimal
+let operators = ["+", "-", "×", "÷"]
 
 // operation buttons
 const divideButton = document.querySelector('#divide')
@@ -216,8 +222,6 @@ percentButton.addEventListener('click', percentage)
 operationButtons.forEach((operation) => {
     operation.addEventListener('click', () => {
          
-            let operators = ["+", "-", "×", "÷"]
-
             operator = operation.textContent // New operator
             resetOperatorButton()
             toggleOperatorButton(operator)
@@ -258,12 +262,14 @@ digitButtons.forEach((digit) => {
     digit.addEventListener('click', () => {
         resetOperatorButton()
 
-        if (secondNumber == "" && operatorToggled == false && result != null) {
+        // if the user immediately starts typing a number after calculation, reset the calculator
+        if (secondNumber == "" && !operators.includes(formulaString.slice(-1)) && result != null) {
             resetCalculator()
             firstNumber = (firstNumber + digit.textContent)
             screen.textContent = firstNumber
             appendToFormulaDisplay(digit.textContent)
-        } else if (firstNumDecimal == true) { // if user is adding decimals to an output to use in next
+        // if user is adding decimals to an output to use in next
+        } else if (firstNumDecimal == true) {
             firstNumber = (firstNumber + digit.textContent)
             screen.textContent = firstNumber
             appendToFormulaDisplay(digit.textContent)
@@ -295,3 +301,38 @@ digitButtons.forEach((digit) => {
         };
     });
 });
+
+
+// Add event listener on keydown
+document.addEventListener('keydown', (e) => {
+
+    var keyName = e.key;
+    var keyClass = {
+        '0':'zero',
+        '1':'one',
+        '2':'two',
+        '3':'three',
+        '4':'four',
+        '5':'five',
+        '6':'six',
+        '7':'seven',
+        '8':'eight',
+        '9':'nine',
+        '/':'divide',
+        '*':'multiply',
+        '-':'subtract',
+        '+':'add',
+        'Enter':'equals',
+        'Delete': "C",
+        'Backspace':'AC',
+        '%':'percent',
+        '.':'decimal'
+    }
+    
+    if (keyName in keyClass) {
+        let className = keyClass[keyName]
+        document.getElementById(className).click()
+    }
+
+});
+
