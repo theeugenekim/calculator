@@ -84,43 +84,36 @@ function addDecimal() {
         screen.textContent = firstNumber
         appendToFormulaDisplay('.')
         firstNumDecimal = true
-        console.log('b')
     // 1st number: add a zero & decimal if user did not add 0 initially
     } else if (firstNumber == '' && operator == null) { 
         firstNumber = '0.'
         screen.textContent = firstNumber
         appendToFormulaDisplay(firstNumber)
-        console.log('a')
     // user entering decimal to 1st number
     } else if (firstNumber == '0' && operator == null) {
         firstNumber += '.'
         screen.textContent = firstNumber
         appendToFormulaDisplay(firstNumber)
-        console.log('b')
     // 2nd number: add a zero & decimal if user did not add 0 initially
     } else if (secondNumber == '' && operator != null) { 
         secondNumber = '0.'
         screen.textContent = secondNumber
         appendToFormulaDisplay(secondNumber)
-        console.log('c')
     // user entering decimal to 2nd number
     } else if (secondNumber == '0'  && operator != null) {
         secondNumber += '.'
         screen.textContent = secondNumber
         appendToFormulaDisplay(secondNumber)
-        console.log('d')
     // prevent user from adding decimal if already added in 1st number
     } else if (!firstNumber.includes('.') && operator == null) { 
         firstNumber += '.'
         screen.textContent = firstNumber
         appendToFormulaDisplay('.')
-        console.log('e')
     // prevent user from adding decimal if already exists in 2nd number
     } else if (!secondNumber.includes('.') && operator != null) {
         secondNumber += '.'
         screen.textContent = secondNumber
         appendToFormulaDisplay('.')
-        console.log('f')
     };
 };
 
@@ -273,16 +266,13 @@ digitButtons.forEach((digit) => {
             firstNumber = (firstNumber + digit.textContent)
             screen.textContent = firstNumber
             appendToFormulaDisplay(digit.textContent)
-            console.log('ak')
         // prevent user from spamming 0 initially
         } else if ((firstNumber == '') && digit.textContent == '0') { 
             firstNumber = ''
             formulaDisplay.textContent = 0
-            console.log('a')
         // prevent user from spamming 0 during very first digit of 2nd number
         } else if (operator != null && secondNumber == '' && digit.textContent == '0') { 
             screen.textContent = '0'
-            console.log('b')
         // prevent user from spamming 0 during second number
         } else if (secondNumber != '' && secondNumber.split('')[0] == 0 && digit.textContent == '0') {
             secondNumber = ''
@@ -291,13 +281,11 @@ digitButtons.forEach((digit) => {
             firstNumber = (firstNumber + digit.textContent)
             screen.textContent = firstNumber
             appendToFormulaDisplay(digit.textContent)
-            console.log('d')
         // entering 2nd value or n+2..
         } else {                                                
             secondNumber = (secondNumber + digit.textContent)
             screen.textContent = secondNumber;
             appendToFormulaDisplay(digit.textContent)
-            console.log('e')
         };
     });
 });
